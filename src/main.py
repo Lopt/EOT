@@ -1,69 +1,87 @@
 #coding: utf-8
 
+class TimeList(list):
+    def __init__(self, *args, **kwargs):
+        list.__init__(self, *args, **kwargs)
+        self.sort(cmp=TimeList.compare)
+
+    @staticmethod
+    def compare(obj1, obj2):
+        return obj1.GetTime() < obj2.GetTime()
+        
+    def append(self, *args, **kwargs):
+        list.append(self, *args, **kwargs)
+        self.sort(cmp=TimeList.compare)
+
+    def insert(self, *args, **kwargs):
+        list.insert(self, *args, **kwargs)
+        self.sort(cmp=TimeList.compare)
+        
 ID = 0
 def CreateID():
     global ID
     ID += 1
     return ID
 
+class Alternative():
+    def __init__(self):
+        self.changes = TimeList()
+        
+    def AddChange(self, change):
+        self.changes.append(change)
+
 class Change():
-    def __init__(self, obj, function, rfunction, informations):
+    def __init__(self, time, function, rfunction, informations):
         self.function     = function
         self.informations = informations
-        self.obj          = obj
+        self.time         = time
         self.rfunction    = rfunction
         
+    def GetTime(self):
+        return self.time
+    
     def Apply(self, changes):
         self.function(*self.informations)
     
     def Revert(self, changes):
         self.rfunction(*self.informations)
 
-class Alternative():
-    def __init__(self, time, timeline):
-        self.time = time
-        self.timeline = timeline
-        self.changes = []
 
-    def AddChange(self, change):
-        self.changes.append(change)
-
-class Time():
-    
+class Timeline():
     def __init__(self):
-        self.alternatives = []
-    
-    def AddAlternative(self, action):
-        self.alternatives.append(action)
+        self.alternatives = {}
+        
+    def AddChange(self, time, change):
+        alternative = Alternative()
+        if not self.alternatives.has_key(time):
+            self.alternatives[time] = []
 
-class Unit():
-    def __init__(self, parent, timeline):
-        self.childrens = []
+        alternative.AddChange(change)
+        self.alternatives[time].append(alternative)
+
+class Unit(Timeline):
+    def __init__(self, parent):
+        Timeline.__init__(self)
         self.parent    = parent
-        self.timeline  = timeline
 
-    def CreateUnit(self):
-        return Unit(self, self.timeline)
-    
+    def CreateUnit(self, time):
+        unit = Unit(self)
+        change = Change(time,  unit.ActivateUnit, unit.DeactivateUnit, [])
+        self.AddChange(time, change)
+        return unit
+
     def ActivateUnit(self):
-        self.timeline = 1
+        pass
     
     def DeactivateUnit(self):
-        self.timeline = 0
+        pass
 
 
-time = Time()
-root = Unit(None, CreateID())
-a = root.CreateUnit()
-aa = root.CreateUnit()
-b = root.CreateUnit()
-aChange = Change(a, a.ActivateUnit, a.DeactivateUnit, [])
-aaChange = Change(aa, aa.ActivateUnit, aa.DeactivateUnit, [])
-bChange = Change(b, b.ActivateUnit, b.DeactivateUnit, [])
+root = Unit(None)
+a = root.CreateUnit(0)
+b = root.CreateUnit(0)
 
-alternativeT0  = Alternative(0, root.timeline)
-alternativeT0.AddChange(aChange)
-alternativeT0.AddChange(bChange)
-alternativeT0.AddChange(aaChange)
+aa = a.CreateUnit(1)
+bb = b.CreateUnit(1)
 
-time.AddAlternative(alternative)
+
