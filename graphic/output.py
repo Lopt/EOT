@@ -10,10 +10,10 @@ def Output():
     
     for entitie in World.entities:
         position = entitie.GetPosition()
-        if (used_array[int(position.x / 1)][int(position.y / 1)] in constants.NAMES):
+        if (used_array[int(position.x)][int(position.y)] in constants.NAMES):
             pass
         else:
-            used_array[int(position.x / 1)][int(position.y / 1)] = entitie.icon
+            used_array[int(position.x)][int(position.y)] = entitie.icon
     print 
     for line in used_array:
         printed_line = ""

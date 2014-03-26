@@ -2,10 +2,10 @@
 import sys
 
 class Type():
-    def __init__(self, entropie, position, icon = ""):
+    def __init__(self, entropy, position, icon = ""):
         self.icon     = icon
         self.position = position
-        self.entropie = entropie
+        self.entropy  = entropy
         self.actions  = []
     
     def GetPosition(self):

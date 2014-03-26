@@ -16,8 +16,8 @@ class Random():
 
     @staticmethod
     def seed(entity):
-        random.seed(str(Random.seed) + str(entity.entropie) + str(entity.position) + str(World.time))
-        entity.entropie += 1    
+        random.seed(str(Random.seed) + str(entity.entropy) + str(entity.position) + str(World.time))
+        entity.entropy += 1
     
     @staticmethod
     def choice(entity, choice):

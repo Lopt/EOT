@@ -4,11 +4,11 @@ from logic.world import World
 
 class Action():
 
-    def __init__(self, start_time, needed_time, action, target):
+    def __init__(self, entity, action, start_time, needed_time):
+        self.entity      = entity
         self.start_time  = start_time
         self.needed_time = needed_time
         self.action      = action
-        self.target      = target
     
     def IsDone(self):
         return self.start_time + self.needed_time >= World.time
@@ -18,7 +18,10 @@ class Action():
 
     def PercentageDone(self):
         return (float(World.time) - self.start_time) / self.needed_time
-    
+
+    def DoAction(self):
+        pass
+
     def __repr__(self):
         return "<Type: %s Time: %i Target %s>" % (self.action, self.start_time, self.target)
         

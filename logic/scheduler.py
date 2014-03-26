@@ -22,6 +22,7 @@ class Scheduler():
     def RemoveEntity(self, entity):
         if entity.actions:
             self.RemoveFromSchedule(entity, entity.actions[-1].DoneTime())
+
         World.entities.remove(entity)
     
     def AddToSchedule(self, entity, time):
@@ -47,8 +48,7 @@ class Scheduler():
     
     
     def Schedule(self, time):
-        World.time = time   
-        
+        World.time = time
         if time in self.times:
 
             self.ThreadFunction()

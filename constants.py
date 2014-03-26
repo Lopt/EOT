@@ -8,7 +8,7 @@ GROW_TIME = 60
 RESEED_TIME = 20
 
 # Erhöhung = Die NPCs benötigen mehr Zeit um von a nach b zu kommen (niedriger als 1 derzeit nicht möglich)
-WALK_FACTOR  = 6
+WALK_FACTOR  = 1
 
 
 # Weltgröße X, Y
@@ -22,7 +22,7 @@ NPCS = 3
 NAMES = 100 * "ABCDEFGHIJLMNOPRSUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz"
 
 # wie lange zwischen zwei Runden gewartet werden soll -> je niedriger desto schneller läuft es
-SLEEP_TIME = 0.008
+SLEEP_TIME = 0.5
 
 # wie lang es gehen soll (Dauer ~= rounds * sleep_time in sekunden)
 ROUNDS = 20000

@@ -6,46 +6,52 @@ from logic.world import World
 from logic.rand import Random
 from logic.vector2d import Vector2D
 from logic.scheduler import Scheduler
-import constants
+
+from constants import RESEED_TIME, GROW_TIME
+
+class Grow(Action):
+    def __init__(self, entity):
+        Action.__init__(self, entity, "GROW", World.time, GROW_TIME)
+
+    def DoAction(self):
+        if self.IsDone():
+            self.entity.icon = "T"
+
+class Plant(Action):
+    def __init__(self, entity):
+        Action.__init__(self, entity, "PLANT", World.time, RESEED_TIME)
+
+    def DoAction(self):
+        if self.IsDone():
+            addx = Random.randint(self.entity, -1, 1)
+            addy = Random.randint(self.entity, -1, 1)
+            plant_position = self.entity.position + Vector2D(addx, addy)
+
+            if World.IsInWorld(plant_position):
+                if not World.GetEntitiesOnPosition(plant_position):
+                    entropy = Random.randint(self.entity, 0, 100000)
+                    Scheduler.instance.AddEntity(Tree(entropy, plant_position))
 
 class Tree(Type):
-    def __init__(self, entropie, position):
-        Type.__init__(self, entropie, position, "t")
+    def __init__(self, entropy, position):
+        Type.__init__(self, entropy, position, "t")
     
         self.plant_time = 0
                 
         
     def StopAction(self):
-        action = self.actions.pop()
-        if action.action == "GROW":
-            if action.IsDone():
-                self.icon = "T"
-        if action.action == "PLANT":
-            if action.IsDone():
-                addx = Random.randint(self, -1, 1)
-                addy = Random.randint(self, -1, 1)
-                plant_position = self.position + Vector2D(addx, addy)
-                if World.IsInWorld(plant_position):
-                    if not World.GetEntitiesOnPosition(plant_position):
-                        entropie = Random.randint(self, 0, 100000)                                    
-                        Scheduler.instance.AddEntity(Tree(entropie, plant_position))
+        if self.actions:
+            action = self.actions.pop()
+            action.DoAction()
 
     def AddAction(self):
         if not self.actions:
-            grow_time = constants.GROW_TIME
-            self.plant_time += constants.RESEED_TIME
-            
+
             if self.icon == "_":
                 return None
             if self.icon == "t":
-                self.actions.append(Action(World.time, grow_time + Random.randint(self, 0, 10), "GROW", None))
+                self.actions.append(Grow(self))
             elif self.icon == "T":
-                self.actions.append(Action(World.time, self.plant_time + Random.randint(self, 0, 10), "PLANT", None))        
+                self.actions.append(Plant(self))
     
             Scheduler.instance.AddToSchedule(self, self.actions[-1].DoneTime())
-    
-    
-    def Chopped(self):
-        Scheduler.instance.RemoveEntity(self)
-        self.StopAction()
-        self.icon = "_"
