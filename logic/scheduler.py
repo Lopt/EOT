@@ -12,59 +12,33 @@ class Scheduler():
         self.schedule_list = {}
         self.times         = set()
         self.threads       = []
-            
-        self.temp  = []            
-            
-    def AddEntity(self, entity):
-        World.entities.append(entity)
-        self.AddToSchedule(entity, World.time)
-        
-    def RemoveEntity(self, entity):
-        if entity.actions:
-            self.RemoveFromSchedule(entity, entity.actions[-1].DoneTime())
 
-        World.entities.remove(entity)
-    
-    def AddToSchedule(self, entity, time):
-        if time < World.time: 
-            raise Exception("Schedule Time below World.time!")
-        time = int(time)        
-        self.times.add(time)        
-        
+    def AddAction(self, entity, time):
+        time = int(time)
+        if time < World.time:
+            raise Exception("Schedule Time below World.time (" + str(World.time) + ") !")
+
+        self.times.add(time)
         if not self.schedule_list.has_key(time):
-            self.schedule_list[time] = []
-        self.schedule_list[time].append(entity)
-    
-    def RemoveFromSchedule(self, entity, time):
-        if time < World.time: 
+            self.schedule_list[time] = set()
+        self.schedule_list[time].add(entity)
+
+    def RemoveActiom(self, entity, time):
+        if time <= World.time:
             raise Exception("Schedule Time below World.time!")
-        time = int(time)        
+        time = int(time)
         
         if self.schedule_list.has_key(time):
-            self.schedule_list[time].remove(entity)
+            self.schedule_list[time].discard(entity)
             if not self.schedule_list[time]:
                 del self.schedule_list[time]
                 self.times.discard(time)
-    
-    
+
+
     def Schedule(self, time):
         World.time = time
         if time in self.times:
-
-            self.ThreadFunction()
             self.times.discard(time)
-        
-        
-    def ThreadFunction(self):
-        while True:
-            try:
-                entity = self.schedule_list[World.time].pop()
-                entity.Action()
 
-            except IndexError:
-                try:
-                    del self.schedule_list[World.time]
-                except KeyError:
-                    break
-            except KeyError:
-                break
+            for entity in self.schedule_list[World.time]:
+                entity.Action(time)

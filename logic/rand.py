@@ -11,12 +11,13 @@ Ist das Lock zu Zeitaufwändig?
 '''
 
 class Random():
-    seed = 0
+    seed_number = 0
     lock = threading.Lock()
 
     @staticmethod
     def seed(entity):
-        random.seed(str(Random.seed) + str(entity.entropy) + str(entity.position) + str(World.time))
+
+        random.seed(str(Random.seed_number) + str(entity.entropy) + str(entity.position) + str(World.time))
         entity.entropy += 1
     
     @staticmethod

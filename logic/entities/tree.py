@@ -11,17 +11,19 @@ from constants import RESEED_TIME, GROW_TIME
 
 class Grow(Action):
     def __init__(self, entity):
-        Action.__init__(self, entity, "GROW", World.time, GROW_TIME)
+        Action.__init__(self, entity, "GROW", GROW_TIME)
 
-    def DoAction(self):
+    def Stop(self):
+        Action.Stop(self)
         if self.IsDone():
             self.entity.icon = "T"
 
 class Plant(Action):
     def __init__(self, entity):
-        Action.__init__(self, entity, "PLANT", World.time, RESEED_TIME)
+        Action.__init__(self, entity, "PLANT", RESEED_TIME)
 
-    def DoAction(self):
+    def Stop(self):
+        Action.Stop(self)
         if self.IsDone():
             addx = Random.randint(self.entity, -1, 1)
             addy = Random.randint(self.entity, -1, 1)
@@ -30,28 +32,19 @@ class Plant(Action):
             if World.IsInWorld(plant_position):
                 if not World.GetEntitiesOnPosition(plant_position):
                     entropy = Random.randint(self.entity, 0, 100000)
-                    Scheduler.instance.AddEntity(Tree(entropy, plant_position))
+
+                    #tree = Tree(entropy, plant_position)
+                    #World.entities.append(tree)
 
 class Tree(Type):
     def __init__(self, entropy, position):
         Type.__init__(self, entropy, position, "t")
-    
         self.plant_time = 0
-                
-        
-    def StopAction(self):
-        if self.actions:
-            action = self.actions.pop()
-            action.DoAction()
 
     def AddAction(self):
-        if not self.actions:
-
-            if self.icon == "_":
-                return None
-            if self.icon == "t":
-                self.actions.append(Grow(self))
-            elif self.icon == "T":
-                self.actions.append(Plant(self))
-    
-            Scheduler.instance.AddToSchedule(self, self.actions[-1].DoneTime())
+        if self.icon == "_":
+            return None
+        if self.icon == "t":
+            self.actions[World.time] = Grow(self)
+        elif self.icon == "T":
+            self.actions[World.time] = Plant(self)

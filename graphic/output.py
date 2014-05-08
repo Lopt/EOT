@@ -8,12 +8,12 @@ def Output():
     empty_array = [["." for x in range(World.size_x / 1 + 1)] for line in range(World.size_y / 1 + 1)]
     used_array = copy.deepcopy(empty_array)
     
-    for entitie in World.entities:
-        position = entitie.GetPosition()
+    for entity in World.entities:
+        position = entity.GetPosition()
         if (used_array[int(position.x)][int(position.y)] in constants.NAMES):
             pass
         else:
-            used_array[int(position.x)][int(position.y)] = entitie.icon
+            used_array[int(position.x)][int(position.y)] = entity.icon
     print 
     for line in used_array:
         printed_line = ""
