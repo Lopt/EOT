@@ -2,7 +2,7 @@
 
 import random
 import threading
-from logic.world import World
+from logic.automat.scheduler import Scheduler
 
 '''
 Hier passiert was böses... wenn zwei Threads ein random anfordern, aber im seed das ganze wechselt, wird das eine random mit dem seed des anderen verwendet
@@ -15,26 +15,24 @@ class Random():
     lock = threading.Lock()
 
     @staticmethod
-    def seed(entity):
-
-        random.seed(str(Random.seed_number) + str(entity.entropy) + str(entity.position) + str(World.time))
-        entity.entropy += 1
+    def seed(entity, seed):
+        random.seed(str(Random.seed_number) + str(Scheduler.instance.time) + str(seed))
     
     @staticmethod
-    def choice(entity, choice):
+    def choice(entity, choice, seed = 0):
         with Random.lock:
-            Random.seed(entity)
+            Random.seed(entity, seed)
             return random.choice(choice)
 
     @staticmethod    
-    def random(entity):
+    def random(entity, seed = 0):
         with Random.lock:
-            Random.seed(entity)
+            Random.seed(entity, seed)
             return random.random()
             
     @staticmethod 
-    def randint(entity, start, stop):
+    def randint(entity, start, stop, seed = 0):
         with Random.lock:
-            Random.seed(entity)        
+            Random.seed(entity, seed)
             return random.randint(start, stop)
         

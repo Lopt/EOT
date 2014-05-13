@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from type import Type
+from entity import Entity
 
-class Town(Type):
+class Town(Entity):
     def __init__(self, name):
         self.name      = name
         self.townfolks = []

@@ -3,9 +3,11 @@
 import constants
 
 class World():
-    time     = 0
-    entities = []
-    
+    instance = None
+
+    def __init__(self):
+        World.instance = self
+
     size_x   = constants.WORLD_SIZE_X
     size_y   = constants.WORLD_SIZE_Y
     

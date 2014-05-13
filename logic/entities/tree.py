@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from logic.entities.type import Type
-from logic.action import Action
+from logic.entities.entity import Entity
+from logic.automat.action import Action
 from logic.world import World
-from logic.rand import Random
-from logic.vector2d import Vector2D
-from logic.scheduler import Scheduler
+from logic.base.rand import Random
+from logic.base.vector2d import Vector2D
 
 from constants import RESEED_TIME, GROW_TIME
 
@@ -36,9 +35,9 @@ class Plant(Action):
                     #tree = Tree(entropy, plant_position)
                     #World.entities.append(tree)
 
-class Tree(Type):
+class Tree(Entity):
     def __init__(self, entropy, position):
-        Type.__init__(self, entropy, position, "t")
+        Entity.__init__(self, entropy, position, "t")
         self.plant_time = 0
 
     def AddAction(self):
