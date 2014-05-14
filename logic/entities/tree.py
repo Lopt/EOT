@@ -9,18 +9,17 @@ from world.vector2d import Vector2D
 from constants import RESEED_TIME, GROW_TIME
 
 class Grow(Action):
-    def __init__(self, entity):
-        Action.__init__(self, entity, "GROW", GROW_TIME)
 
-    def Stop(self):
-        Action.Stop(self)
-        if self.IsDone():
-            self.entity.icon = "T"
+    def Start(self, time):
+        Action.Start(self, time)
+        self.stop = time + 10
+
+    def Stop(self, time):
+        Action.Stop(self, time)
+        if time >= self.stop:
+            self.world_entity.data.Change(time, "Icon", "T")
 
 class Plant(Action):
-    def __init__(self, entity):
-        Action.__init__(self, entity, "PLANT", RESEED_TIME)
-
     def Stop(self):
         Action.Stop(self)
         if self.IsDone():
@@ -36,14 +35,9 @@ class Plant(Action):
                     #World.entities.append(tree)
 
 class Tree(Entity):
-    def __init__(self, entropy, position):
-        Entity.__init__(self, entropy, position, "t")
-        self.plant_time = 0
 
-    def AddAction(self):
-        if self.icon == "_":
-            return None
-        if self.icon == "t":
-            self.actions[World.time] = Grow(self)
-        elif self.icon == "T":
-            self.actions[World.time] = Plant(self)
+    def GetNextAction(self, time):
+        if self.world_entity.GetLatest("Icon") == "t":
+            return Grow(self.world_entity)
+        if self.world_entity.GetLatest("Icon") == "T":
+            return Grow(self.world_entity)

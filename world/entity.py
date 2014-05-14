@@ -9,11 +9,15 @@ from world import World
 
 
 class Entity():
-    def __init__(self, *args, **kwargs):
-        self.data = Data(*args, **kwargs)
+    def __init__(self, time, *args, **kwargs):
+        self.data = Data(time, *args, **kwargs)
         self.actions = TimeDict()
 
-        World.entities.append(self)
+        World.AppendEntity(time, self)
+
+    def Kill(self, time):
+        self.data.Kill(time)
+        World.RemoveEntity(time, self)
 
     def GetLatest(self, name):
         return self.data.GetLatest(name)

@@ -2,7 +2,6 @@
 
 from bisect import bisect
 from collections import deque
-from logic.action import Death
 
 from world.time_exception import TimeException
 import timeit
@@ -51,6 +50,4 @@ class Scheduler():
             entity.SetAction(self.time, action)
             self.AddAction(action.stop, entity)
         else:
-            action = Death(entity.world_entity)
-            action.Start(self.time)
-            entity.SetAction(self.time, action)
+            entity.world_entity.Kill(self.time)

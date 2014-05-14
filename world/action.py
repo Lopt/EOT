@@ -10,9 +10,6 @@ class Action():
     def Get(self, time, name, data):
         return data.Get(time, name)
 
-    def DoneTime(self):
-        pass
-
 class Walk(Action):
     def Get(self, time, name, data):
         if name == "Position":
@@ -24,3 +21,4 @@ class Walk(Action):
         return Action.Get(self, time, name, data)
 
 
+DefaultAction = Action()

@@ -44,12 +44,13 @@ class Data():
         return self.data[name][self.times[name][-1]]
 
     def GetInfos(self, time, name):
-        times = self.times[name]
-        index = bisect.bisect(times, time)
-        if index > 0:
-            start = times[index - 1]
-            stop = times[index]
-            return [start, stop]
+        if time <= self.death:
+            times = self.times[name]
+            index = bisect.bisect(times, time)
+            if index > 0:
+                start = times[index - 1]
+                stop = times[index]
+                return [start, stop]
 
 if __name__ == "__main__":
 

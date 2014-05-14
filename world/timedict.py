@@ -4,9 +4,9 @@ from bisect import bisect
 
 class TimeDict():
 
-    def __init__(self):
-        self.times = []
-        self.data = {}
+    def __init__(self, standard={}):
+        self.times = standard.keys()
+        self.data = standard
 
     def __getitem__(self, time):
         index = bisect(self.times, time)

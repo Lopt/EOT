@@ -25,4 +25,4 @@ NAMES = 100 * "ABCDEFGHIJLMNOPRSUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz"
 SLEEP_TIME = 0.3
 
 # wie lang es gehen soll (Dauer ~= rounds * sleep_time in sekunden)
-ROUNDS = 100000
+ROUNDS = 10000

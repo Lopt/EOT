@@ -10,7 +10,7 @@ def Output(time):
     empty_array = [["." for x in range(World.size_x / 1 + 1)] for line in range(World.size_y / 1 + 1)]
     used_array = copy.deepcopy(empty_array)
 
-    for entity in World.entities:
+    for entity in World.entities[time]:
         position = entity.Get(time, "Position")
         if (used_array[int(position.x)][int(position.y)] in constants.NAMES):
             pass
