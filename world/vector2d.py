@@ -27,8 +27,13 @@ class Vector2D:
         return math.sqrt(self.ScalarProduct(self))
         
     def __repr__(self):
-        return "(%i, %i)" % (self.x, self.y)
+        return "(%s, %s)" % (str(self.x), str(self.y))
         
     def __eq__(self, vector):
         return self.x == vector.x and self.y == vector.y
         
+    def CalculatePosition(self, target_position, percentage):
+        return self + (target_position - self) * percentage
+
+    def CalculateTravelTime(self, target_position):
+        return (self - target_position).Length()

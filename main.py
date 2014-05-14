@@ -1,38 +1,41 @@
 # -*- coding: utf-8 -*-
 
-from logic.entities.human import Human
-from logic.automat.scheduler import Scheduler
-from logic.base.vector2d import Vector2D
-from logic.world import World
-
-import constants
-
 import datetime
+
+from logic.entities.human import Human
+from logic.scheduler import Scheduler
+from world.vector2d import Vector2D
+from world.world import World
+import constants
 
 start = datetime.datetime.now()
 
 scheduler = Scheduler()
-world     = World()
 
 
 for i in range(constants.NPCS):
-    human = Human(0, Vector2D(0,0), constants.NAMES[i])
-    human.ExecuteAction(0)
+    scheduler.AddAction(0, Human(0, Vector2D(0,0), constants.NAMES[i]))
 
-for t in range(constants.ROUNDS):
-    times = list(scheduler.times)
-    
-    scheduler.Schedule(t)
-        
-    #Output()
-    #time.sleep(constants.SLEEP_TIME)
+scheduler.Schedule(0, constants.ROUNDS)
+
 
 end = datetime.datetime.now()
 
-print "Dauer:", end - start
+
+for time in range(constants.ROUNDS - 10):
+    World.entities[0].Get(time, "Position")
+    #Output(t)
+    #sleep(constants.SLEEP_TIME)
+
+end2 = datetime.datetime.now()
+
+
+print "Dauer Datenerzeugung:", end - start
+print "Dauer Datenlesen:", end2 - end
 
 raw_input("TEST")
-print len(human.actions)
+
+World.entities
 
 '''
 while True:

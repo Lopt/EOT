@@ -2,11 +2,13 @@
 
 import bisect
 from time_exception import TimeException
+import sys
 
 class Data():
     def __init__(self, time, standard):
         self.times = {}
-        self.data  = {}
+        self.data = {}
+        self.death = sys.maxint
 
         for name in standard:
             self.times[name] = []
@@ -20,18 +22,34 @@ class Data():
             times.insert(index, time)
         self.data[name][time] = value
 
+    def Kill(self, time):
+        self.death = time
+
     def Get(self, time, name):
+        if time <= self.death:
+            times = self.times[name]
+            index = bisect.bisect(times, time)
+            if index:
+                start_time = times[index - 1]
+                try:
+                    return self.data[name][start_time]
+                except KeyError:
+                    pass
+            else:
+                raise TimeException("Data doesn't exist yet")
+        else:
+            raise TimeException("Data doesn't exist anymore")
+
+    def GetLatest(self, name):
+        return self.data[name][self.times[name][-1]]
+
+    def GetInfos(self, time, name):
         times = self.times[name]
         index = bisect.bisect(times, time)
-        if index:
-            start_time = times[index - 1]
-            try:
-                return self.data[name][start_time]
-            except KeyError:
-                pass
-        else:
-            raise TimeException("Value doesn't exist yet")
-
+        if index > 0:
+            start = times[index - 1]
+            stop = times[index]
+            return [start, stop]
 
 if __name__ == "__main__":
 

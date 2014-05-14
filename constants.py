@@ -22,7 +22,7 @@ NPCS = 1
 NAMES = 100 * "ABCDEFGHIJLMNOPRSUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz"
 
 # wie lange zwischen zwei Runden gewartet werden soll -> je niedriger desto schneller läuft es
-SLEEP_TIME = 0.00
+SLEEP_TIME = 0.3
 
 # wie lang es gehen soll (Dauer ~= rounds * sleep_time in sekunden)
-ROUNDS = 10000
+ROUNDS = 100000

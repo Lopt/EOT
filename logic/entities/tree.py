@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from logic.entities.entity import Entity
-from logic.automat.action import Action
-from logic.world import World
+from logic.action import Action
+from world.world import World
 from logic.base.rand import Random
-from logic.base.vector2d import Vector2D
+from world.vector2d import Vector2D
 
 from constants import RESEED_TIME, GROW_TIME
 

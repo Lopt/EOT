@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 
 import copy
-from logic.world import World
+
+from world.world import World
 import constants
 
-def Output():
+
+def Output(time):
     empty_array = [["." for x in range(World.size_x / 1 + 1)] for line in range(World.size_y / 1 + 1)]
     used_array = copy.deepcopy(empty_array)
-    
+
     for entity in World.entities:
-        position = entity.GetPosition()
+        position = entity.Get(time, "Position")
         if (used_array[int(position.x)][int(position.y)] in constants.NAMES):
             pass
         else:
-            used_array[int(position.x)][int(position.y)] = entity.icon
+            used_array[int(position.x)][int(position.y)] = entity.Get(time, "Icon")
     print 
     for line in used_array:
         printed_line = ""

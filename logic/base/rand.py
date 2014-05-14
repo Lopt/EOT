@@ -2,7 +2,9 @@
 
 import random
 import threading
-from logic.automat.scheduler import Scheduler
+
+from logic.scheduler import Scheduler
+
 
 '''
 Hier passiert was böses... wenn zwei Threads ein random anfordern, aber im seed das ganze wechselt, wird das eine random mit dem seed des anderen verwendet
