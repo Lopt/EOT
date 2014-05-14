@@ -10,9 +10,9 @@ from world.action import Walk as WorldWalk
 
 class Walk(Action):
     def __init__(self, world_entity, target_position):
+        Action.__init__(self, world_entity)
         self.target_position = target_position
         self.world_action = WorldWalk()
-        Action.__init__(self, world_entity)
 
     def Start(self, start):
         Action.Start(self, start)
