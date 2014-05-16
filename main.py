@@ -3,7 +3,8 @@
 import datetime
 
 from logic.entities.human import Human
-from logic.entities.tree import Tree
+from logic.entities.farm import Farm
+from logic.lifetime import Calculate
 from logic.scheduler import Scheduler
 from world.vector2d import Vector2D
 from world.world import World
@@ -16,13 +17,13 @@ start = datetime.datetime.now()
 scheduler = Scheduler()
 
 
-for i in range(constants.NPCS):
+for i in xrange(constants.NPCS):
     scheduler.CreateEntity(Human, i, Vector2D(0,0), constants.NAMES[i])
 
-scheduler.CreateEntity(Tree, 1, Vector2D(5,5))
-scheduler.CreateEntity(Tree, 2, Vector2D(5,6))
-scheduler.CreateEntity(Tree, 3, Vector2D(6,5))
-scheduler.CreateEntity(Tree, 4, Vector2D(6,6))
+scheduler.CreateEntity(Farm, 1, Vector2D(6, 6))
+scheduler.CreateEntity(Farm, 3, Vector2D(8, 6))
+scheduler.CreateEntity(Farm, 2, Vector2D(6, 8))
+scheduler.CreateEntity(Farm, 4, Vector2D(8, 8))
 
 scheduler.Schedule(0, constants.ROUNDS)
 
@@ -30,7 +31,7 @@ scheduler.Schedule(0, constants.ROUNDS)
 end = datetime.datetime.now()
 
 
-for time in range(constants.ROUNDS):
+for time in xrange(0, constants.ROUNDS, Calculate(days=1)):
 
     #print World.entities[time][0].Get(time, "Position")
     Output(time)

@@ -23,7 +23,7 @@ class Scheduler():
         if time == sys.maxint:
             return
         elif time <= self.time:
-            raise TimeException("Action time below World time (%s < %s)" % (time, self.time))
+            raise TimeException("Action time below World time (%s <= %s)" % (time, self.time))
 
         if time not in self.times:
             index = bisect(self.times, time)
@@ -36,7 +36,6 @@ class Scheduler():
     def Schedule(self, start, stop):
         while self.times and start <= self.times[0] < stop:
             self.time = self.times.pop(0)
-
             for entity in self.schedule_list[self.time]:
                 self.ExecuteAction(entity)
 
@@ -48,6 +47,7 @@ class Scheduler():
             action.Stop(self.time)
 
         action = entity.GetNextAction(self.time)
+
         if action:
             action.Start(self.time)
             entity.SetAction(self.time, action)

@@ -2,11 +2,15 @@
 
 from logic.base.rand import Random
 from logic.entities.entity import Entity
+from logic.lifetime import Calculate
 from world.world import World
 from logic.action import Action
 from world.vector2d import Vector2D
 from world.action import Walk as WorldWalk
 
+
+WALK_FACTOR = 200000
+LIFE_TIME = Calculate(years=50)
 
 
 class Walk(Action):
@@ -16,8 +20,8 @@ class Walk(Action):
 
     def OnStart(self, time):
         position = self.world_entity.GetLatest("Position")
-        needed = position.CalculateTravelTime(self.target_position)
-        self.needed = max(needed, 0.000001)
+        needed = position.CalculateTravelTime(self.target_position) * WALK_FACTOR
+        self.needed = max(needed, 1)
 
     def OnStop(self, time):
         if self.IsDone(time):
@@ -28,7 +32,7 @@ class Walk(Action):
 class Human(Entity):
     def OnInit(self, time, name):
         self.world_entity.data.Change(time, "Icon", name)
-        self.lifetime = 1000
+        self.lifetime = LIFE_TIME
 
     def GetNextAction(self, time):
         if time <= self.birth + self.lifetime:

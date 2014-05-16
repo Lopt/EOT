@@ -2,17 +2,16 @@
 
 from logic.entities.entity import Entity
 from logic.action import Action
+from logic.lifetime import Calculate
 from world.action import DefaultAction
 from world.world import World
 from logic.base.rand import Random
 from world.vector2d import Vector2D
 from logic.scheduler import Scheduler
 
-from constants import RESEED_TIME, GROW_TIME
-
 class Grow(Action):
     def OnInit(self):
-        self.needed = 10
+        self.needed = Calculate(years=20)
 
     def OnStop(self, time):
         if self.IsDone(time):
@@ -20,7 +19,7 @@ class Grow(Action):
 
 class Plant(Action):
     def OnInit(self):
-        self.needed = 30
+        self.needed = Calculate(years=1)
 
     def OnStop(self, time):
         if self.IsDone(time):
