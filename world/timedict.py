@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from bisect import bisect
+from copy import copy
 
 class TimeDict():
 
-    def __init__(self, standard={}):
+    def __init__(self, standard = dict()):
         self.times = standard.keys()
-        self.data = standard
+        self.data = copy(standard)
 
     def __getitem__(self, time):
         index = bisect(self.times, time)
