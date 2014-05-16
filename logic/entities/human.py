@@ -26,8 +26,8 @@ class Walk(Action):
             raise Exception("This should never happen: Someone was stopped while he walked")
 
 class Human(Entity):
-    def __init__(self, *args, **kwargs):
-        Entity.__init__(self, *args, **kwargs)
+    def OnInit(self, time, name):
+        self.world_entity.data.Change(time, "Icon", name)
         self.lifetime = 1000
 
     def GetNextAction(self, time):

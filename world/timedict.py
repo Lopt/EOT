@@ -5,7 +5,7 @@ from copy import copy
 
 class TimeDict():
 
-    def __init__(self, standard = dict()):
+    def __init__(self, standard={}):
         self.times = standard.keys()
         self.data = copy(standard)
 

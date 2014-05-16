@@ -16,6 +16,10 @@ class Data():
             self.Change(time, name, standard[name])
 
     def Change(self, time, name, value):
+        if not self.times.has_key(name):
+            self.times[name] = [time]
+            self.data[name] = {time: value}
+
         times = self.times[name]
         index = bisect.bisect(times, time)
         if time not in times:

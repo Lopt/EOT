@@ -34,8 +34,8 @@ class Plant(Action):
                     Scheduler.instance.CreateEntity(Tree, entropy, plant_position)
 
 class Tree(Entity):
-    def __init__(self, *args, **kwargs):
-        Entity.__init__(self, icon="t", *args, **kwargs)
+    def OnInit(self, time):
+        self.world_entity.data.Change(time, "Icon", "t")
         self.replants = 10
 
     def GetNextAction(self, time):

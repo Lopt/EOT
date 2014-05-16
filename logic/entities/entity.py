@@ -4,11 +4,12 @@ from world.entity import Entity as WorldEntity
 
 
 class Entity():
-    def __init__(self, time, entropy, position, icon):
+    def __init__(self, time, entropy, position, *args, **kwargs):
         self.birth = time
         self.entropy = entropy
         self.current_action = None
-        self.world_entity = WorldEntity(time, entropy, {"Position": position, "Icon": icon})
+        self.world_entity = WorldEntity(time, entropy, {"Position": position})
+        self.OnInit(time, *args, **kwargs)
 
     def GetAction(self, time):
         return self.current_action
