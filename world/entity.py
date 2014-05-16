@@ -9,7 +9,8 @@ from world import World
 
 
 class Entity():
-    def __init__(self, time, *args, **kwargs):
+    def __init__(self, time, entropy, *args, **kwargs):
+        self.entropy = entropy
         self.data = Data(time, *args, **kwargs)
         self.actions = TimeDict()
 

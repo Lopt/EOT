@@ -17,12 +17,12 @@ scheduler = Scheduler()
 
 
 for i in range(constants.NPCS):
-    scheduler.AddAction(0, Human(0, Vector2D(0,0), constants.NAMES[i]))
+    scheduler.CreateEntity(Human, i, Vector2D(0,0), constants.NAMES[i])
 
-scheduler.AddAction(0, Tree(0, Vector2D(5,5), "t"))
-scheduler.AddAction(0, Tree(0, Vector2D(5,6), "t"))
-scheduler.AddAction(0, Tree(0, Vector2D(6,5), "t"))
-scheduler.AddAction(0, Tree(0, Vector2D(6,6), "t"))
+scheduler.CreateEntity(Tree, 1, Vector2D(5,5))
+scheduler.CreateEntity(Tree, 2, Vector2D(5,6))
+scheduler.CreateEntity(Tree, 3, Vector2D(6,5))
+scheduler.CreateEntity(Tree, 4, Vector2D(6,6))
 
 scheduler.Schedule(0, constants.ROUNDS)
 
@@ -32,7 +32,7 @@ end = datetime.datetime.now()
 
 for time in range(constants.ROUNDS):
 
-    #World.entities[0].Get(time, "Position")
+    #print World.entities[time][0].Get(time, "Position")
     Output(time)
     sleep(constants.SLEEP_TIME)
 

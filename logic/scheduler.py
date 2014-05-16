@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from bisect import bisect
-from collections import deque
-
+import sys
 from world.time_exception import TimeException
-import timeit
+from logic.base.rand import Random
 
 class Scheduler():
     instance = None
@@ -14,20 +13,25 @@ class Scheduler():
 
         self.schedule_list = {}
         self.times         = []
-        self.time          = -1
+        self.time          = 0
+
+    def CreateEntity(self, type, entropy, *args, **kwargs):
+        entity = type(self.time, entropy, *args, **kwargs)
+        self.ExecuteAction(entity)
 
     def AddAction(self, time, entity):
+        if time == sys.maxint:
+            return
+        elif time <= self.time:
+            raise TimeException("Action time below World time (%s < %s)" % (time, self.time))
+
         if time not in self.times:
             index = bisect(self.times, time)
             self.times.insert(index, time)
 
-        if time <= self.time:
-            raise TimeException("Action time below World time (%s < %s)" % (time, self.time))
-
         if not self.schedule_list.has_key(time):
             self.schedule_list[time] = set()
         self.schedule_list[time].add(entity)
-
 
     def Schedule(self, start, stop):
         while self.times and start <= self.times[0] < stop:
@@ -38,7 +42,6 @@ class Scheduler():
 
             del self.schedule_list[self.time]
 
-    #timeit.timeit
     def ExecuteAction(self, entity):
         action = entity.GetAction(self.time)
         if action:
@@ -48,6 +51,6 @@ class Scheduler():
         if action:
             action.Start(self.time)
             entity.SetAction(self.time, action)
-            self.AddAction(action.stop, entity)
+            self.AddAction(action.DoneTime(), entity)
         else:
             entity.world_entity.Kill(self.time)
