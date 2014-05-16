@@ -11,22 +11,18 @@ from logic.scheduler import Scheduler
 from constants import RESEED_TIME, GROW_TIME
 
 class Grow(Action):
-    def Start(self, time):
-        Action.Start(self, time)
+    def OnInit(self):
         self.needed = 10
 
-    def Stop(self, time):
-        Action.Stop(self, time)
+    def OnStop(self, time):
         if self.IsDone(time):
             self.world_entity.data.Change(time, "Icon", "T")
 
 class Plant(Action):
-    def Start(self, time):
-        Action.Start(self, time)
+    def OnInit(self):
         self.needed = 30
 
-    def Stop(self, time):
-        Action.Stop(self, time)
+    def OnStop(self, time):
         if self.IsDone(time):
             add_x = Random.randint(self.world_entity, -1, 1, seed=time)
             add_y = Random.randint(self.world_entity, -1, 1, seed=time + 1)

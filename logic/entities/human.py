@@ -10,20 +10,18 @@ from world.action import Walk as WorldWalk
 
 
 class Walk(Action):
-    def __init__(self, world_entity, target_position):
-        Action.__init__(self, world_entity)
+    def OnInit(self, target_position):
         self.target_position = target_position
-        self.world_action = WorldWalk
+        self.world_action = WorldWalk()
 
-    def Start(self, start):
-        Action.Start(self, start)
+    def OnStart(self, time):
         position = self.world_entity.GetLatest("Position")
         needed = position.CalculateTravelTime(self.target_position)
         self.needed = max(needed, 0.000001)
-    def Stop(self, stop):
-        if self.IsDone(stop):
-            Action.Stop(self, stop)
-            self.world_entity.data.Change(stop, "Position", self.target_position)
+
+    def OnStop(self, time):
+        if self.IsDone(time):
+            self.world_entity.data.Change(time, "Position", self.target_position)
         else:
             raise Exception("This should never happen: Someone was stopped while he walked")
 
