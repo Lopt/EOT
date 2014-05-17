@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class Action():
+class Action(object):
     def InTime(self, start, time, stop):
         return start <= time <= stop
 
@@ -10,7 +10,7 @@ class Action():
     def Get(self, time, name, data):
         return data.Get(time, name)
 
-class Walk(Action):
+class WalkDummy(Action):
     def Get(self, time, name, data):
         if name == "Position":
             start, stop = data.GetInfos(time, name)
@@ -20,5 +20,5 @@ class Walk(Action):
             return start_pos.CalculatePosition(stop_pos, percentage)
         return Action.Get(self, time, name, data)
 
-
+Walk = WalkDummy()
 DefaultAction = Action()

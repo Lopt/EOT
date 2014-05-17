@@ -8,7 +8,7 @@ from action import Walk
 from world import World
 
 
-class Entity():
+class Entity(object):
     def __init__(self, time, entropy, *args, **kwargs):
         self.entropy = entropy
         self.data = Data(time, *args, **kwargs)

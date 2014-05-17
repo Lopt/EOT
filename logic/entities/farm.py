@@ -16,14 +16,14 @@ class Grow(Action):
 
     def OnStop(self, time):
         if self.IsDone(time):
-            self.world_entity.data.Change(time, "Icon", u"☰")
+            self.world_entity.data.Change(time, "Icon", u"-")
 
 class Farm(Entity):
     def OnInit(self, time):
-        self.world_entity.data.Change(time, "Icon", u"☷")
+        self.world_entity.data.Change(time, "Icon", u"=")
 
     def GetNextAction(self, time):
-        if self.world_entity.GetLatest("Icon") == u"☷":
+        if self.world_entity.GetLatest("Icon") == u"=":
             return Grow(self.world_entity)
 
         else:

@@ -5,7 +5,7 @@ import constants
 from timedict import TimeDict
 
 
-class World():
+class World(object):
     entities = TimeDict({-1: []})
 
     size_x   = constants.WORLD_SIZE_X
@@ -35,5 +35,4 @@ class World():
         entities = copy.copy(World.entities[time])
         entities.remove(entity)
         World.entities[time] = entities
-
 

@@ -4,7 +4,7 @@ import bisect
 from time_exception import TimeException
 import sys
 
-class Data():
+class Data(object):
     def __init__(self, time, standard):
         self.times = {}
         self.data = {}
@@ -55,38 +55,3 @@ class Data():
                 start = times[index - 1]
                 stop = times[index]
                 return [start, stop]
-
-if __name__ == "__main__":
-
-
-    from datetime import datetime, timedelta
-
-    td = timedelta()
-
-    datas = []
-    for i in xrange(100):
-        start = datetime.now()
-
-        datadict = {}
-        for k in xrange(16):
-            datadict["D" + str(k)] = 0
-
-        d = Data(0, datadict)
-        datas.append(d)
-        for j in xrange(1, 100):
-            for k in xrange(16):
-                nr = "D" + str(k)
-                d.Change(j * 1000, nr, j)
-
-                d.Get(j * 1000, nr)
-                d.Get(j * 1000 - 1, nr)
-                d.Get(j, nr)
-                d.Get(j, nr)
-                d.Get(j, nr)
-        print i
-        end = datetime.now()
-        td += end - start
-
-    print td
-    raw_input()
-    datas.clear()

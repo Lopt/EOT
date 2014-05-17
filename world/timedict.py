@@ -3,7 +3,7 @@
 from bisect import bisect
 from copy import copy
 
-class TimeDict():
+class TimeDict(object):
 
     def __init__(self, standard={}):
         self.times = standard.keys()

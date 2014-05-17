@@ -9,14 +9,14 @@ from world.vector2d import Vector2D
 from world.action import Walk as WorldWalk
 
 
-WALK_FACTOR = 200000
-LIFE_TIME = Calculate(years=50)
+WALK_FACTOR = 14000
+LIFE_TIME = Calculate(months=1)
 
 
 class Walk(Action):
     def OnInit(self, target_position):
         self.target_position = target_position
-        self.world_action = WorldWalk()
+        self.world_action = WorldWalk
 
     def OnStart(self, time):
         position = self.world_entity.GetLatest("Position")
@@ -29,10 +29,20 @@ class Walk(Action):
         else:
             raise Exception("This should never happen: Someone was stopped while he walked")
 
+class Chop(Action):
+    def OnInit(self, target):
+        self.target = target
+
+    def OnStop(self, time):
+        if self.IsDone(time):
+            self.world_entity.data.Change(time, "Icon", )
+
 class Human(Entity):
     def OnInit(self, time, name):
         self.world_entity.data.Change(time, "Icon", name)
         self.lifetime = LIFE_TIME
+
+        self.gold = 0
 
     def GetNextAction(self, time):
         if time <= self.birth + self.lifetime:

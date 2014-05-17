@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+import json
+import pickle
+import cPickle
 
 from logic.entities.human import Human
 from logic.entities.farm import Farm
 from logic.lifetime import Calculate
 from logic.scheduler import Scheduler
+from world.decoder import ObjectEncoder
 from world.vector2d import Vector2D
 from world.world import World
 from graphic.output import Output
 from time import sleep
 import constants
 
-start = datetime.datetime.now()
-
 scheduler = Scheduler()
-
 
 for i in xrange(constants.NPCS):
     scheduler.CreateEntity(Human, i, Vector2D(0,0), constants.NAMES[i])
@@ -27,24 +28,20 @@ scheduler.CreateEntity(Farm, 4, Vector2D(8, 8))
 
 scheduler.Schedule(0, constants.ROUNDS)
 
+out = Output()
+for time in xrange(0, constants.ROUNDS, Calculate(hours=1)):
+#    for entity in World.entities[time]:
+#        entity.Get(time, "Position")
 
-end = datetime.datetime.now()
-
-
-for time in xrange(0, constants.ROUNDS, Calculate(days=1)):
-
-    #print World.entities[time][0].Get(time, "Position")
-    Output(time)
+#    World.entities[time][0].Get(time, "Position")
+    out.curses(time)
     sleep(constants.SLEEP_TIME)
 
-end2 = datetime.datetime.now()
 
-print "Dauer Datenerzeugung:", end - start
-print "Dauer Datenlesen:", end2 - end
+print
+print
+#print len(json.dumps(World.entities, cls=ObjectEncoder))
 
-raw_input("TEST")
-
-World.entities
 
 '''
 while True:
