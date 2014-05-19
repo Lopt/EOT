@@ -16,7 +16,7 @@ class Grow(Action):
 
     def OnStop(self, time):
         if self.IsDone(time):
-            self.world_entity.data.Change(time, "Icon", u"-")
+            self.entity.world_entity.data.Change(time, "Icon", u"-")
 
 class Farm(Entity):
     def OnInit(self, time):
@@ -24,7 +24,7 @@ class Farm(Entity):
 
     def GetNextAction(self, time):
         if self.world_entity.GetLatest("Icon") == u"=":
-            return Grow(self.world_entity)
+            return Grow(self)
 
         else:
-            return Action(self.world_entity)
+            return Action(self)

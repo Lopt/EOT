@@ -43,6 +43,6 @@ class Tree(Entity):
                 return Grow(self.world_entity)
             if self.world_entity.GetLatest("Icon") == "T":
                 self.replants -= 1
-                return Plant(self.world_entity)
+                return Plant(self)
         else:
-            return Action(self.world_entity)
+            return Action(self)

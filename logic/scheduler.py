@@ -20,7 +20,7 @@ class Scheduler():
         self.ExecuteAction(entity)
 
     def AddAction(self, time, entity):
-        if time == sys.maxint:
+        if time >= sys.maxint:
             return
         elif time <= self.time:
             raise TimeException("Action time below World time (%s <= %s)" % (time, self.time))
@@ -44,13 +44,15 @@ class Scheduler():
     def ExecuteAction(self, entity):
         action = entity.GetAction(self.time)
         if action:
+            entity.SetAction(self.time, None)
             action.Stop(self.time)
 
         action = entity.GetNextAction(self.time)
 
         if action:
             action.Start(self.time)
-            entity.SetAction(self.time, action)
-            self.AddAction(action.DoneTime(), entity)
+            if action.DoneTime() < sys.maxint:
+                entity.SetAction(self.time, action)
+                self.AddAction(action.DoneTime(), entity)
         else:
             entity.world_entity.Kill(self.time)

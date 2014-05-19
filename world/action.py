@@ -1,24 +1,27 @@
 # -*- coding: utf-8 -*-
 
 class Action(object):
-    def InTime(self, start, time, stop):
+    @staticmethod
+    def InTime(start, time, stop):
         return start <= time <= stop
 
-    def PercentageDone(self, start, time, stop):
+    @staticmethod
+    def PercentageDone(start, time, stop):
         return (float(time) - start) / (stop - start)
 
-    def Get(self, time, name, data):
+    @staticmethod
+    def Get(time, name, data):
         return data.Get(time, name)
 
-class WalkDummy(Action):
-    def Get(self, time, name, data):
+class Walk(Action):
+    @staticmethod
+    def Get(time, name, data):
         if name == "Position":
             start, stop = data.GetInfos(time, name)
-            percentage = self.PercentageDone(start, time, stop)
+            percentage = Walk.PercentageDone(start, time, stop)
             start_pos = data.Get(start, name)
             stop_pos = data.Get(stop, name)
             return start_pos.CalculatePosition(stop_pos, percentage)
-        return Action.Get(self, time, name, data)
+        return Action.Get(time, name, data)
 
-Walk = WalkDummy()
 DefaultAction = Action()

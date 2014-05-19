@@ -4,6 +4,7 @@ import datetime
 import json
 import pickle
 import cPickle
+from logic.action import Action
 
 from logic.entities.human import Human
 from logic.entities.farm import Farm
@@ -34,11 +35,11 @@ for time in xrange(0, constants.ROUNDS, Calculate(hours=1)):
 #        entity.Get(time, "Position")
 
 #    World.entities[time][0].Get(time, "Position")
-    out.curses(time)
-    sleep(constants.SLEEP_TIME)
+    #out.console(time)
+    #sleep(constants.SLEEP_TIME)
+    pass
 
 
-print
 print
 #print len(json.dumps(World.entities, cls=ObjectEncoder))
 
