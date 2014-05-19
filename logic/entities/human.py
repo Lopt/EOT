@@ -35,7 +35,7 @@ class Chop(Action):
 
     def OnStop(self, time):
         if self.IsDone(time):
-            self.world_entity.data.Change(time, "Icon", )
+            self.world_entity.data.Change(time, "Icon")
 
 class Human(Entity):
     def OnInit(self, time, name):

@@ -36,19 +36,22 @@ class Scheduler():
     def Schedule(self, start, stop):
         while self.times and start <= self.times[0] < stop:
             self.time = self.times.pop(0)
-            for entity in self.schedule_list[self.time]:
+            while self.schedule_list[self.time]:
+                entity = self.schedule_list[self.time].pop()
+                self.InterruptEntity(entity)
                 self.ExecuteAction(entity)
-
             del self.schedule_list[self.time]
 
-    def ExecuteAction(self, entity):
+    def InterruptEntity(self, entity):
         action = entity.GetAction(self.time)
         if action:
             entity.SetAction(self.time, None)
             action.Stop(self.time)
 
-        action = entity.GetNextAction(self.time)
+        self.schedule_list[self.time].discard(entity)
 
+    def ExecuteAction(self, entity):
+        action = entity.GetNextAction(self.time)
         if action:
             action.Start(self.time)
             if action.DoneTime() < sys.maxint:
