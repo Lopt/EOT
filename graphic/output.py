@@ -8,12 +8,7 @@ import constants
 
 class Output():
     def __init__(self):
-        self.empty_array = []
-        for x in xrange(World.size_x + 1):
-            temp = []
-            for y in xrange(World.size_y + 1):
-                temp.append(" ")
-            self.empty_array.append(temp)
+        self.empty_array = [[" " for x in range(World.size_x + 1)] for line in range(World.size_y+ 1)]
 
     def console(self, time):
         output = copy.deepcopy(self.empty_array)
@@ -23,8 +18,14 @@ class Output():
             icon = entity.Get(time, "Icon")
 
             output[int(position.x)][int(position.y)] = icon
-        print output
 
+        for line in output:
+            printed_line = ""
+            for char in line:
+                printed_line += char
+            print printed_line
+
+        print '#'*50
 
 '''
 import curses

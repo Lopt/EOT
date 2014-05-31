@@ -19,6 +19,9 @@ class Scheduler():
         entity = type(self.time, entropy, *args, **kwargs)
         self.ExecuteAction(entity)
 
+    def RemoveAction(self, time, entity):
+        self.schedule_list[time].discard(entity)
+
     def AddAction(self, time, entity):
         if time >= sys.maxint:
             return
@@ -38,24 +41,14 @@ class Scheduler():
             self.time = self.times.pop(0)
             while self.schedule_list[self.time]:
                 entity = self.schedule_list[self.time].pop()
-                self.InterruptEntity(entity)
                 self.ExecuteAction(entity)
-            del self.schedule_list[self.time]
 
-    def InterruptEntity(self, entity):
-        action = entity.GetAction(self.time)
-        if action:
-            entity.SetAction(self.time, None)
-            action.Stop(self.time)
-
-        self.schedule_list[self.time].discard(entity)
+            if not self.schedule_list[self.time]:
+                del self.schedule_list[self.time]
 
     def ExecuteAction(self, entity):
         action = entity.GetNextAction(self.time)
         if action:
-            action.Start(self.time)
-            if action.DoneTime() < sys.maxint:
-                entity.SetAction(self.time, action)
-                self.AddAction(action.DoneTime(), entity)
+            entity.SetAction(self.time, action)
         else:
             entity.world_entity.Kill(self.time)

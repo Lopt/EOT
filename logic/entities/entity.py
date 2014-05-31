@@ -18,4 +18,9 @@ class Entity():
         return None
 
     def SetAction(self, time, action):
+        if self.current_action:
+            self.current_action.Stop(time)
+
         self.current_action = action
+        if action:
+            action.Start(time)
