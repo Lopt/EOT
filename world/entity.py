@@ -9,16 +9,24 @@ from world import World
 
 
 class Entity(object):
-    def __init__(self, time, entropy, *args, **kwargs):
+    def __init__(self, logic_entity, time, entropy, *args, **kwargs):
+        self.logic_entity = logic_entity
         self.entropy = entropy
         self.data = Data(time, *args, **kwargs)
         self.actions = TimeDict()
 
         World.AppendEntity(time, self)
 
+    def GetLogicEntity(self):
+        if self.logic_entity:
+            return self.logic_entity
+
+        raise Exception("Logic Entity didn't exist (this should never happen)")
+
     def Kill(self, time):
         self.data.Kill(time)
         World.RemoveEntity(time, self)
+        logic_entity = None
 
     def GetLatest(self, name):
         return self.data.GetLatest(name)

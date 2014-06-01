@@ -12,7 +12,7 @@ from logic.scheduler import Scheduler
 
 class Grow(Action):
     def OnInit(self):
-        self.needed = Calculate(days=14)
+        self.needed = Calculate(days=7)
 
     def OnStop(self, time):
         if self.IsDone(time):

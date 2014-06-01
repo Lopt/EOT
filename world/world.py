@@ -17,6 +17,17 @@ class World(object):
                 0 <= position.y <= World.size_y)
 
     @staticmethod
+    def GetEntititiesInRange(time, start, end):
+        entities = []
+        for entity in World.entities[time]:
+            entity_pos = entity.data.Get(time, "Position")
+            if (start.x < entity_pos.x < end.x and
+                start.y < entity_pos.y < end.y):
+                entities.append(entity)
+        return entities
+
+
+    @staticmethod
     def GetEntitiesOnPosition(time, position):
         entities = []
         for entity in World.entities[time]:

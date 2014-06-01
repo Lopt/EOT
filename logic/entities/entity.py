@@ -8,7 +8,8 @@ class Entity():
         self.birth = time
         self.entropy = entropy
         self.current_action = None
-        self.world_entity = WorldEntity(time, entropy, {"Position": position})
+        self.next_actions = []
+        self.world_entity = WorldEntity(self, time, entropy, {"Position": position})
         self.OnInit(time, *args, **kwargs)
 
     def GetAction(self, time):

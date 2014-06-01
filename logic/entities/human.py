@@ -5,6 +5,7 @@ from logic.entities.entity import Entity
 from logic.lifetime import Calculate
 from world.world import World
 from logic.action import Action
+from logic.entities.farm import Grow
 from world.vector2d import Vector2D
 from world.action import Walk as WorldWalk
 
@@ -32,20 +33,57 @@ class Walk(Action):
 class Chop(Action):
     def OnInit(self, target):
         self.target = target
+        self.needed = 10
 
     def OnStop(self, time):
         if self.IsDone(time):
-            self.world_entity.data.Change(time, "Icon")
+            self.target.world_entity.data.Change(time, "Icon", "_")
+            self.target.SetAction(time, Grow(self.target))
 
 class Human(Entity):
     def OnInit(self, time, name):
+        self.target = None
+
         self.world_entity.data.Change(time, "Icon", name)
         self.lifetime = LIFE_TIME
 
+    def _FindFarm(self, time):
+        for entity in World.entities[time]:
+            print entity
+            if entity.GetLatest("Icon") == '=':
+                return entity.GetLogicEntity()
+
+    def _RandomWalk(self, time):
+        x = Random.randint(self, 0, World.size_x, seed=time)
+        y = Random.randint(self, 0, World.size_y, seed=time + 1)
+        target_position = Vector2D(x, y)
+        return Walk(self, target_position)
+
     def GetNextAction(self, time):
-        if time <= self.birth + self.lifetime:
-            x = Random.randint(self, 0, World.size_x, seed=time)
-            y = Random.randint(self, 0, World.size_y, seed=time + 1)
-            target_position = Vector2D(x, y)
-            return Walk(self, target_position)
+        if time > self.birth + self.lifetime:
+            return
+
+        if not self.next_actions:
+            target = self._FindFarm(time)
+            if target is None:
+                action = self._RandomWalk(time)
+            else:
+                action = Chop(self, target)
+
+            self.next_actions.append(action)
+
+
+
+        if isinstance(self.next_actions[0], Chop):
+            target =  self.next_actions[0].target
+            target_pos = target.world_entity.GetLatest("Position")
+            entity_pos = self.world_entity.GetLatest("Position")
+
+            if not (target_pos == entity_pos):
+                walk = Walk(self, Vector2D(target_pos.x, target_pos.y))
+                self.next_actions.insert(0, walk)
+
+
+        print 'X'
+        return self.next_actions.pop(0)
 

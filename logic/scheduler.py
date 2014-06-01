@@ -20,12 +20,13 @@ class Scheduler():
         self.ExecuteAction(entity)
 
     def RemoveAction(self, time, entity):
+        print self.schedule_list.keys()
         self.schedule_list[time].discard(entity)
 
     def AddAction(self, time, entity):
-        if time >= sys.maxint:
-            return
-        elif time <= self.time:
+        #if time >= sys.maxint:
+        #    return
+        if time <= self.time:
             raise TimeException("Action time below World time (%s <= %s)" % (time, self.time))
 
         if time not in self.times:
