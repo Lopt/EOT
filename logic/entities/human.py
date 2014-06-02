@@ -35,6 +35,14 @@ class Chop(Action):
         self.target = target
         self.needed = 10
 
+    def BeforeStart(self):
+        target_pos = self.target.world_entity.GetLatest("Position")
+        entity_pos = self.entity.world_entity.GetLatest("Position")
+
+        if not (target_pos == entity_pos):
+            return [Walk(self.entity, Vector2D(target_pos.x, target_pos.y))]
+        return []
+
     def OnStop(self, time):
         if self.IsDone(time):
             self.target.world_entity.data.Change(time, "Icon", "_")
@@ -73,16 +81,8 @@ class Human(Entity):
             self.next_actions.append(action)
 
 
-
-        if isinstance(self.next_actions[0], Chop):
-            target =  self.next_actions[0].target
-            target_pos = target.world_entity.GetLatest("Position")
-            entity_pos = self.world_entity.GetLatest("Position")
-
-            if not (target_pos == entity_pos):
-                walk = Walk(self, Vector2D(target_pos.x, target_pos.y))
-                self.next_actions.insert(0, walk)
-
+        actions = self.next_actions[0].BeforeStart()
+        self.next_actions = actions + self.next_actions
 
         print 'X'
         return self.next_actions.pop(0)

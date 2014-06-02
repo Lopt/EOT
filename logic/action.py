@@ -32,6 +32,9 @@ class Action():
     def DoneTime(self):
         return self.start + self.needed
 
+    # returns a list of (other) actions which should come in front of it (as example, before you chop a tree, walk to it)
+    def BeforeStart(self):
+        return []
 
     def OnInit(self, *args, **kwargs):
         pass

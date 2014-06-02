@@ -1,0 +1,112 @@
+\documentclass[11pt]{article}
+
+% deutsche Silbentrennung
+
+ 
+% wegen deutschen Umlauten
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} 
+%Gummi|063|=)
+
+\title{\textbf{EoT - End of Time}}
+\author{Bernd Schmidt} 
+
+
+
+\date{}
+\begin{document}
+
+\maketitle
+
+\section{Version 1}
+In der ersten Version des Spiels soll noch nicht alles implementiert sein. Die Anzahl an Gebäuden, Berufen, Ansichten, Rohstoffen ist eingeschränkt und ein Tech-Tree soll noch nicht implementiert werden. 
+
+\section{Grundidee}
+
+Die Grundidee sind Zeitreisen gewesen.Das Gedankenexperiment durch die Zeit zu reisen und durch eine kleine oder große Veränderung die gesamte Zeitlinie zu ändern wurde bisher zwar in vielen Spielen umgesetzt, jedoch stets mit Einschränkungen. So ist es bei "Zelda - Ocarina of Time" möglich zwischen zwei Zeitpunkten hin und her zu springen, wobei manipulationen in der Vergangenheit die Zukunft geringfügig verändern (in der Vergangenheit gefplanze Samen werden in der Zukunft zu richtigen Pflanzen z.B.), so ist es schon bei "Singularity" möglich Gegenstände und Gegner altern zu lassen. In der "Prince of Persia" Reihe wird beim Tode auch die Zeit kurzfristig zurück gespult. All das bietet aber nur eine geringfügige Einflussnahme in die Zeit und der Welt.
+Nun ging es aber darum ein Spiel zu erstellen, welches die Möglichkeit bietet zu jeder beliebigen Zeit etwas an der Welt zu manipulieren damit diese noch so winzige Änderung im weiteren Spielverlauf relevanten Einfluss nehmen kann wodurch die gesamte Welt sich komplett anders entwickelt. Ebenso waren  Zeitparadoxons ein Teil der Grundidee, so das die Zukunft auch die Vergangenheit beeinflussen kann, wodurch eine neue, gegebenenfalls andere, Zukunft geschaffen wird.
+
+Das Interaktionen die Spielwelt verändern ist eigentlich bei jedem Spiel normal. Hier geht es mehr um die Art der Änderung und die Komplexität der Veränderung sowie die Möglichkeit jederzeit zurück zu springen und andere Änderungen vor zu nehmen.
+Mit der Art der Änderung ist gemeint, das man nicht direkt eingreifen kann. Beziehungsweise die Möglichkeiten zur Interaktion mit der Spielwelt sollte nur in einem minimalen Rahmen möglichst sein, die aber stets weitere Folgen hat.
+
+Die Komplexität der Änderung beschreibt welche Folgen eine möglichst minimal wirkende Änderung haben kann. Dazu ein kleine These: Wenn die Kunstuniversität Wien 1907 einige zusätzliche Sitze angeboten hätte, wäre Deutschland und damit die Alliierten nie erstarkt. Die Sowjetunion hätte die Atombombe entwickelt und möglicherweise die halbe Welt in einem nuklearen Fallout versenkt. 
+
+\section{Was daraus wurde}
+Eine Simulation mit minimalen Möglichkeiten zur Interaktion. Am Anfang existiert eine vorgegebene Insel mit ein paar NPCs die sich entwickeln, mit den anderen reden, fortpflanzen und andere Gebiete besiedeln und sogar Krieg führen. 
+
+   
+
+
+
+\section{Wirtschaft}
+
+
+
+
+\section{Rohstoffe}
+\subsection{Gold}
+Ist die offizielle Währung. 
+
+\subsection{Nahrung}
+
+
+\subsection{Holz}
+
+\subsection{Eisen}
+
+\section{NPCs}
+\subsection{Dorf}
+\subsubsection{Kommunikation}
+
+\subsubsection{Gebäude}
+
+\subsubsection{Straßen}
+Symbolisieren Standardwege zwischen zwei Gebäuden, zum Beispiel Wohnhaus und Mine, und dienen nur den Zweck eine hübsch aussehende Stadt aufzubauen. Sie werden errichtet wenn jemand häufig den jeweiligen Pfad geht. Sie zerfallen wenn eines der beiden mit der Straße verbundenen Gebäude zerfallen ist.
+
+Intern sind die verschiedenen Gebäude mögliche Ziele für einen Pathfinding Algorithmus. Die Straßen müssen nur einmal berechnet werden und stellen dann den kürzesten Weg zwischen zwei Gebäuden dar. Dadurch wird ein Straßennetzwerk aufgespannt, das als Pathfinding Graph genutzt werden kann.
+
+\subsubsection{Wohnhäuser}
+Wird von den NPCs in verschiedenen Größen und Stärken gebaut. Eine ausgebeutete Gemeinschaft wird tendenziell eher billige Häuser bauen, da für mehr kein Geld vorhanden ist. Die NPCs schlafen und speisen in ihren Häusern.
+
+\subsubsection{Taverne}
+Dient als Sammelpunkt für Diskussionen und Austausch.
+
+\subsubsection{Mine}
+Wird in Bergen errichtet um Gold oder Eisen zu sammeln.
+
+\subsubsection{Farm}
+Wird auf Wiesen errichtet um Nahrung zu sammeln.
+
+
+\subsection{Berufe}
+Farmer: Liefert Nahrung von einer Farm
+Bergwerksarbeiter: Liefert Eisen oder Gold von einer Mine
+Fischer: Falls Wasser in der Nähe ist liefert er Fische
+Soldat: Von der Gemeinschaft bezahlte Berufssoldaten zur Sicherung Politischer Interessen. Sie patrouillieren den gesamten Tag nur.
+Politiker: Reden den gesamten Tag mit den anderen NPCs um ihre Bekanntheit zu erhöhen. Entscheiden hin und wieder über Belänge der Gemeinschaft.
+
+\subsection{Ansichten}
+\subsubsection{Politische Ansicht}
+Diktatur <-> Demokratie <-> Direkte Demokratie
+
+Die Diktatur hat eine hierarchische Struktur, deren Führungsriege von dem Diktator ernannt wird. Vor einer Entscheidung diskutiert der Diktator mit der Führungsriege und entscheidet darauf folgend was er unternehmen wird. Der Diktator wird je nach Umstand ernannt: Putsch, durch Geburt (Monarchie) oder durch die Nennung durch die herrschende Regierung.
+
+Bei einer Demokratie entscheidet eine Gruppe von Personen zu gleichen Teilen. Diese Gruppe wird von der gesamten Gemeinschaft gewählt.
+
+Bei einer direkten Demokratie entscheiden alle Bewohner über die Entscheidung der Gemeinschaft.
+
+\subsubsection{Wirtschaftliche Ansicht}
+Kapitalismus <-> Sozialismus <-> Kommunismus
+
+Im Kapitalismus sowie Sozialismus haben die NPCs selbst Geld. Im Sozialismus werden Lebensmittel verbilligt sowie teilweise Häuser für die Bürger gebaut. Die hergestellten Rohstoffe werden versteuert und gehen teilweise in Gemeinschaftsbesitz.
+
+Im Kommunismus haben die NPCs kein eigenes Geld und keinen Besitz. Sämtliche hergestellten Rohstoffe werden Gemeinschaftsbesitz. Benötigen die NPCs etwas, wird es ihnen von der Gemeinschaft bereit gestellt.
+
+\subsubsection{Militärische Ansicht}
+Friedlich <-> Defensiv <-> Offensiv
+
+Friedliche sind tendenziell gegen Krieg auch vermeiden auch die Aufstellung einer eigenen Armee. Defensive erlauben die Erhebung einer Armee zur Sicherung ihrer Gemeinschaft. Offensive Personen möchten direkt in den Krieg ziehen.
+
+
+\end{document}
