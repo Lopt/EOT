@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import constants
 
 from logic.entities.entity import Entity
 from logic.action import Action
@@ -11,11 +12,19 @@ from logic.scheduler import Scheduler
 
 class Grow(Action):
     def OnInit(self):
-        self.needed = Calculate(years=20)
+        self.needed = constants.FARM_GROW_TIME
 
     def OnStop(self, time):
         if self.IsDone(time):
             self.world_entity.data.Change(time, "Icon", "T")
+
+class OnChoped(Action):
+    def OnInit(self):
+        self.needed = constants.HUMAN_CHOPPING_TIME
+
+    def OnStop(self, time):
+        if self.IsDone(time):
+            self.world_entity.data.Change(time, "Icon", "_")
 
 class Plant(Action):
     def OnInit(self):
@@ -37,7 +46,7 @@ class Tree(Entity):
         self.world_entity.data.Change(time, "Icon", "t")
         self.replants = 10
 
-    def GetNextAction(self, time):
+    def CreateNextAction(self, time):
         if self.replants:
             if self.world_entity.GetLatest("Icon") == "t":
                 return Grow(self.world_entity)

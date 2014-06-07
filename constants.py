@@ -14,5 +14,14 @@ NAMES = 1000 * u"ABCDEFGHIJLMNOPRSUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz"
 
 # wie lange zwischen zwei Runden gewartet werden soll -> je niedriger desto schneller läuft es
 SLEEP_TIME = 20.0 / 60
+ROUNDS = Calculate(months=1)
+TIME_PER_FRAME = Calculate(seconds=30)
 
-ROUNDS = Calculate(centuries=2)
+HUMAN_LIFETIME = Calculate(days=10)
+HUMAN_WALK_FACTOR = 30
+HUMAN_FARMING_TIME = Calculate(minutes=2)
+HUMAN_CHOPPING_TIME = Calculate(minutes=2)
+
+TREE_GROW_TIME = Calculate(days=14)
+
+FARM_GROW_TIME = Calculate(minutes=5)

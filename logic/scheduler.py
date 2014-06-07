@@ -20,7 +20,6 @@ class Scheduler():
         self.ExecuteAction(entity)
 
     def RemoveAction(self, time, entity):
-        print self.schedule_list.keys()
         self.schedule_list[time].discard(entity)
 
     def AddAction(self, time, entity):

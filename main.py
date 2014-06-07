@@ -30,7 +30,7 @@ scheduler.CreateEntity(Farm, 4, Vector2D(8, 8))
 scheduler.Schedule(0, constants.ROUNDS)
 
 out = Output()
-for time in xrange(0, constants.ROUNDS, Calculate(hours=6)):
+for time in xrange(0, constants.ROUNDS, constants.TIME_PER_FRAME):
 #    for entity in World.entities[time]:
 #        entity.Get(time, "Position")
 

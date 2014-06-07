@@ -5,8 +5,6 @@ from world.action import DefaultAction
 import sys
 
 class Action():
-    counter = 0
-
     def __init__(self, entity, *args, **kwargs):
         self.entity = entity
         self.world_action = DefaultAction

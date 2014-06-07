@@ -16,7 +16,22 @@ class Entity():
         return self.current_action
 
     def GetNextAction(self, time):
-        return None
+        if not self.next_actions:
+            action = self.CreateNextAction(time)
+            if not action: return
+            self.next_actions.append(action)
+
+        self._ActionBeforeStart(self.next_actions[0])
+        return self.next_actions.pop(0)
+
+    def _ActionBeforeStart(self, action):
+        before_actions = action.BeforeStart()
+        if before_actions:
+            self.next_actions = before_actions + self.next_actions
+            self._ActionBeforeStart(self.next_actions[0])
+
+    def CreateNextAction(self):
+        pass
 
     def SetAction(self, time, action):
         if self.current_action:
