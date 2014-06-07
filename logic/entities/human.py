@@ -3,7 +3,6 @@ import constants
 
 from logic.base.rand import Random
 from logic.entities.entity import Entity
-from logic.lifetime import Calculate
 from world.world import World
 from logic.action import Action
 from logic.entities.farm import OnFarmed
@@ -17,13 +16,13 @@ class Walk(Action):
         self.world_action = WorldWalk
 
     def OnStart(self, time):
-        position = self.entity.world_entity.GetLatest("Position")
+        position = self.entity.GetLatest("Position")
         needed = position.CalculateTravelTime(self.target_position) * constants.HUMAN_WALK_FACTOR
         self.needed = max(needed, 1)
 
     def OnStop(self, time):
         if self.IsDone(time):
-            self.entity.world_entity.data.Change(time, "Position", self.target_position)
+            self.entity.Change(time, "Position", self.target_position)
         else:
             raise Exception("This should never happen: Someone was stopped while he walked")
 
@@ -33,8 +32,8 @@ class Farm(Action):
         self.target = target
 
     def BeforeStart(self):
-        target_pos = self.target.world_entity.GetLatest("Position")
-        entity_pos = self.entity.world_entity.GetLatest("Position")
+        target_pos = self.entity.GetLatest("Position")
+        entity_pos = self.entity.GetLatest("Position")
 
         if not (target_pos == entity_pos):
             return [Walk(self.entity, Vector2D(target_pos.x, target_pos.y))]
@@ -48,7 +47,7 @@ class Human(Entity):
     def OnInit(self, time, name):
         self.target = None
 
-        self.world_entity.data.Change(time, "Icon", name)
+        self.Change(time, "Icon", name)
         self.lifetime = constants.HUMAN_LIFETIME
 
     def _FindFarm(self, time):

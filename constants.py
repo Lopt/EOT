@@ -19,9 +19,9 @@ TIME_PER_FRAME = Calculate(seconds=30)
 
 HUMAN_LIFETIME = Calculate(days=10)
 HUMAN_WALK_FACTOR = 30
-HUMAN_FARMING_TIME = Calculate(minutes=2)
-HUMAN_CHOPPING_TIME = Calculate(minutes=2)
+HUMAN_FARMING_TIME = Calculate(minutes=15)
+HUMAN_CHOPPING_TIME = Calculate(minutes=80)
 
 TREE_GROW_TIME = Calculate(days=14)
 
-FARM_GROW_TIME = Calculate(minutes=5)
+FARM_GROW_TIME = Calculate(minutes=120)

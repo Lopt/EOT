@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from collections import deque
+
 from world.entity import Entity as WorldEntity
 
 
@@ -11,6 +11,15 @@ class Entity():
         self.next_actions = []
         self.world_entity = WorldEntity(self, time, entropy, {"Position": position})
         self.OnInit(time, *args, **kwargs)
+
+    def Change(self, *args, **kwargs):
+        return self.world_entity.data.Change(*args, **kwargs)
+
+    def Get(self, *args, **kwargs):
+        return self.world_entity.Get(*args, **kwargs)
+
+    def GetLatest(self, *args, **kwargs):
+        return self.world_entity.GetLatest(*args, **kwargs)
 
     def GetAction(self, time):
         return self.current_action
